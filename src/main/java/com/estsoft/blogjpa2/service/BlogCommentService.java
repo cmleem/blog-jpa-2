@@ -15,8 +15,12 @@ public class BlogCommentService {
 		this.blogCommentRepository = blogCommentRepository;
 	}
 
-	public Comment save(AddCommentRequest request) {
-		//AddArticleRequest 클래스에 저장된 값들을 article 데이터베이스에 저장
+	public Comment save(Long id, AddCommentRequest request) {
+
 		return blogCommentRepository.save(request.toEntity());
+	}
+
+	public Comment findById(Long id) {
+		return blogCommentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found: " + id));
 	}
 }
