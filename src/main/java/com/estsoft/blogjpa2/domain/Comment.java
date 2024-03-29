@@ -3,6 +3,9 @@ package com.estsoft.blogjpa2.domain;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,9 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,6 @@ public class Comment {
 	@Column(name = "id", updatable = false)
 	private Long id;
 
-	@Column(name = "article_id", nullable = false)
-	private Long articleId;
-
 	@Column(name = "body", nullable = false)
 	private String body;
 
@@ -36,13 +34,18 @@ public class Comment {
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
-	@OneToOne
-	@JoinColumn(name = "article_id")
+	@LastModifiedDate
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
+
+	@ManyToOne
+	@JsonIgnoreProperties({"comment"})
 	private Article article;
 
 	@Builder
-	public Comment(String body) {
+	public Comment(String body, Article article) {
 		this.body = body;
+		this.article = article;
 	}
 
 

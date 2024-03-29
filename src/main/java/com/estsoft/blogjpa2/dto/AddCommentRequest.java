@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddCommentRequest {
 	private String body;
+	private Article article;
 
 	public AddCommentRequest(Comment comment) {
 		this.body = comment.getBody();
 	}
 
-	public Comment toEntity() {
+	public Comment toEntity(Article article) {
 		return Comment.builder()
 			.body(body)
+			.article(article)
 			.build();
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.estsoft.blogjpa2.domain.Article;
 import com.estsoft.blogjpa2.domain.Comment;
@@ -21,21 +22,22 @@ import com.estsoft.blogjpa2.service.BlogService;
 public class BlogCommentController {
 
 	private final BlogCommentService blogCommentService;
-
-	public BlogCommentController(BlogCommentService blogCommentService) {
+	private final BlogService blogService;
+	public BlogCommentController(BlogCommentService blogCommentService, BlogService blogService) {
 		this.blogCommentService = blogCommentService;
+		this.blogService = blogService;
 	}
 
 	@PostMapping("/comments/{articleId}")
-	public ResponseEntity<Comment> addComment(@PathVariable Long articleId, @RequestBody AddCommentRequest request) {
-
-		Comment savedComment = blogCommentService.save(articleId, request);
+	public ResponseEntity<Comment> addComment(@PathVariable(value = "articleId") Long articleId, @RequestBody AddCommentRequest request) {
+		Article article = blogService.findById(articleId);
+		Comment savedComment = blogCommentService.save(article, request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
 	}
 
-	@GetMapping("/comments/{articleId}/{commentId}")
-	public ResponseEntity<CommentResponse> getComment(@PathVariable Long articleId, @PathVariable Long commentId) {
-		Comment comment = blogCommentService.findById(commentId);
-		return ResponseEntity.ok().body(new CommentResponse(comment));
+	@GetMapping("/comments/{articleId}")
+	public ResponseEntity<Article> readComment(@PathVariable(value = "articleId") Long articleId) {
+		Article article = blogService.findById(articleId);
+		return ResponseEntity.ok().body(article);
 	}
 }

@@ -2,6 +2,7 @@ package com.estsoft.blogjpa2.service;
 
 import org.springframework.stereotype.Service;
 
+import com.estsoft.blogjpa2.domain.Article;
 import com.estsoft.blogjpa2.domain.Comment;
 import com.estsoft.blogjpa2.dto.AddArticleRequest;
 import com.estsoft.blogjpa2.dto.AddCommentRequest;
@@ -15,12 +16,9 @@ public class BlogCommentService {
 		this.blogCommentRepository = blogCommentRepository;
 	}
 
-	public Comment save(Long id, AddCommentRequest request) {
+	public Comment save(Article article, AddCommentRequest request) {
 
-		return blogCommentRepository.save(request.toEntity());
+		return blogCommentRepository.save(request.toEntity(article));
 	}
 
-	public Comment findById(Long id) {
-		return blogCommentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("not found: " + id));
-	}
 }
