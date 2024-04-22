@@ -11,7 +11,7 @@ on:
     branches: [ "main" ]
 
 env:
-  S3_BUCKET_NAME: myawsbucket
+  S3_BUCKET_NAME: content-t-like
   AWS_REGION: ap-northeast-2
   
   # Allows you to run this workflow manually from the Actions tab
