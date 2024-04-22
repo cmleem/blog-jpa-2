@@ -11,7 +11,7 @@ on:
     branches: [ "main" ]
 
 env:
-  S3_BUCKET_NAME: S3 버킷 이름
+  S3_BUCKET_NAME: myawsbucket
   AWS_REGION: ap-northeast-2
   
   # Allows you to run this workflow manually from the Actions tab
